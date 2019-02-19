@@ -20,7 +20,6 @@
 # 2 along with this work; if not, see <http://www.gnu.org/licenses/>.
 #
 # ===========================================================================
-#
 
 # exit immediately if any unexpected error occurs
 set -e
