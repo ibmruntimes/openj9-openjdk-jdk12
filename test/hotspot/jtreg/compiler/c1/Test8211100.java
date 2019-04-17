@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -21,19 +21,32 @@
  * questions.
  */
 
-/*
+/**
  * @test
- * @summary run CTW for all classes from jdk.incubator.httpclient module
+ * @bug 8211100
+ * @summary hotspot C1 issue with comparing long numbers on x86 32-bit
  *
- * @library /test/lib / /testlibrary/ctw/src
- * @modules java.base/jdk.internal.access
- *          java.base/jdk.internal.jimage
- *          java.base/jdk.internal.misc
- *          java.base/jdk.internal.reflect
- * @modules jdk.incubator.httpclient
- *
- * @build sun.hotspot.WhiteBox
- * @run driver ClassFileInstaller sun.hotspot.WhiteBox
- *                                sun.hotspot.WhiteBox$WhiteBoxPermission
- * @run main/timeout=7200 sun.hotspot.tools.ctw.CtwRunner modules:jdk.incubator.httpclient
+ * @run main/othervm -XX:+PrintCompilation -XX:CompileOnly=compiler.c1.Test8211100::test
+ *                   -XX:CompileCommand=quiet compiler.c1.Test8211100
  */
+
+package compiler.c1;
+
+public class Test8211100 {
+    private static final int ITERATIONS = 100_000;
+
+    public static void main(String[] args) {
+        for (int i = 0; i < ITERATIONS; i++) {
+            test(4558828911L,
+                 4294967296L);
+        }
+    }
+
+    private static void test(long one, long two) {
+        while (true) {
+            if (one >= two) {
+                break;
+            }
+        }
+    }
+}
