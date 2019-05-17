@@ -1,2 +1,2 @@
-OPENJDK_TAG := jdk-12+33
+OPENJDK_TAG := jdk-12.0.1+12
 
