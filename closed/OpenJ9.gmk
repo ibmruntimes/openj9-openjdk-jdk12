@@ -265,6 +265,7 @@ $(foreach file, \
 		glaunch \
 		invtest \
 		jsigjnitest \
+		nativevmargs \
 		pltest \
 		propstest \
 		shrtest \
@@ -301,6 +302,9 @@ $(foreach file, \
 		testlibA \
 		testlibB \
 		vmruntimestateagent29 \
+		) \
+	$(patsubst %, $(OUTPUTDIR)/vm/lib%.jnilib, \
+		loadLibraryTest \
 		), \
 	$(if $(wildcard $(file)), \
 		$(eval $(call openj9_test_image_rules, $(file)))))
